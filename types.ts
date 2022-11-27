@@ -1,7 +1,8 @@
-export const SECOND = 1000;
+export const SECOND = 1;
 export const MINUTE = 60 * SECOND;
 export const TIME_PER_LEVEL = 5 * MINUTE;
 export const TOTAL_LEVELS = 6;
+
 export const INITAL_STATE = {
   gameTime: 0,
   currentLevel: 0,
@@ -22,3 +23,7 @@ export interface IState {
   socialLevel: number;
   isPaused: boolean;
 }
+
+export const levelFromTime = (time: number) => {
+  return Math.floor(time / TIME_PER_LEVEL) + 1;
+};

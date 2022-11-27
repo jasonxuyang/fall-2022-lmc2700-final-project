@@ -8,6 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [initialState, setInitialState] = useState<IState | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // persist state through refreshes and network failures through session storage
   useEffect(() => {
     const stateInSessionStorage = sessionStorage.getItem("state") ?? "";
     setInitialState(JSON.parse(stateInSessionStorage) ?? INITAL_STATE);
