@@ -1,15 +1,17 @@
 export const SECOND = 1;
 export const MINUTE = 60 * SECOND;
-export const TIME_PER_LEVEL = 5 * MINUTE;
+export const INITIAL_TIME_PER_LEVEL = 5;
 export const TOTAL_LEVELS = 6;
 
 export const INITAL_STATE = {
-  gameTime: 0,
-  currentLevel: 0,
+  level: 0,
+  levelTime: 0,
+  timePerLevel: INITIAL_TIME_PER_LEVEL,
   studiousLevel: 0,
   socialLevel: 0,
   isPaused: false,
 };
+
 export enum TIMER_STATUS {
   RUNNING = "RUNNING",
   PAUSED = "PAUSED",
@@ -17,13 +19,14 @@ export enum TIMER_STATUS {
 }
 
 export interface IState {
-  gameTime: number;
-  currentLevel: number;
+  level: number;
+  levelTime: number;
+  timePerLevel: number;
   studiousLevel: number;
   socialLevel: number;
   isPaused: boolean;
 }
 
-export const levelFromTime = (time: number) => {
-  return Math.floor(time / TIME_PER_LEVEL) + 1;
-};
+export interface IEvent {
+  gameTime: number;
+}

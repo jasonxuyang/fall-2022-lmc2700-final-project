@@ -10,8 +10,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // persist state through refreshes and network failures through session storage
   useEffect(() => {
-    const stateInSessionStorage = sessionStorage.getItem("state") ?? "";
-    setInitialState(JSON.parse(stateInSessionStorage) ?? INITAL_STATE);
+    const stateInSessionStorage = sessionStorage.getItem("state") ?? null;
+    setInitialState(
+      stateInSessionStorage ? JSON.parse(stateInSessionStorage) : INITAL_STATE
+    );
     setIsLoading(false);
   }, []);
 
