@@ -1,9 +1,4 @@
-import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useTimer } from "use-timer";
-import { EVENTS } from "../data";
-import { EVENT_PROMPT_TIME, IEvent, IState, TIMER_STATUS } from "../types";
 
 export default function Landing() {
   //
