@@ -5,7 +5,7 @@ import {
   EVENT_PROMPT_TIME,
 } from "./types";
 
-export const INITAL_STATE: IState = {
+export const INITIAL_STATE: IState = {
   level: 1,
   levelTime: 0,
   timePerLevel: INITIAL_TIME_PER_LEVEL,

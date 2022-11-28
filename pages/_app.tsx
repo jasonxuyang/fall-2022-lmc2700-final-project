@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import { IState } from "../types";
-import { INITAL_STATE } from "../data";
+import { INITIAL_STATE } from "../data";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [initialState, setInitialState] = useState<IState | null>(null);
@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const stateInSessionStorage = sessionStorage.getItem("state") ?? null;
     setInitialState(
-      stateInSessionStorage ? JSON.parse(stateInSessionStorage) : INITAL_STATE
+      stateInSessionStorage ? JSON.parse(stateInSessionStorage) : INITIAL_STATE
     );
     setIsLoading(false);
   }, []);

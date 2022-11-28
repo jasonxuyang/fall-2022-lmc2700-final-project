@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useTimer } from "use-timer";
-import { EVENTS } from "../data";
+import { EVENTS, INITIAL_STATE } from "../data";
 import { EVENT_PROMPT_TIME, IEvent, IState, TIMER_STATUS } from "../types";
 
 export default function Game(pageProps: { initialState: IState }) {
@@ -74,6 +74,10 @@ export default function Game(pageProps: { initialState: IState }) {
       levelTime: time,
     });
     start();
+  };
+
+  const resetGame = () => {
+    setState(INITIAL_STATE);
   };
 
   //
