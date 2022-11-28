@@ -1,0 +1,40 @@
+//
+// Colors
+//
+$black: #171717; //Black
+$white: #ffffff; //White
+$gray: #8c8c8c; //Gray
+
+//
+// Font-size
+//
+$h1: 64px;
+$h2: 48px;
+$h3: 40px;
+$h4: 32px;
+$p: 24px;
+$overline: 20px;
+
+//
+// Margins
+//
+$m1: 12px;
+$m2: 16px;
+$m3: 24px;
+$m4: 32px;
+$m5: 42px;
+$m6: 64px;
+
+//
+// Breakpoints
+//
+$breakpoints: (
+  "phone": 400px,
+  "phone-wide": 480px,
+  "phablet": 560px,
+  "tablet-small": 640px,
+  "tablet": 768px,
+  "tablet-wide": 1024px,
+  "desktop": 1248px,
+  "desktop-wide": 1440px,
+);
