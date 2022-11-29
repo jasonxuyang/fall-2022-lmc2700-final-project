@@ -123,3 +123,16 @@ button {
     color: $black;
   }
 }
+
+input {
+  font-family: "Space Mono", monospace;
+  font-size: $p;
+  color: $white;
+  background-color: $black;
+  border-style: none;
+  border-bottom: 2px $white solid;
+
+  &:focus {
+    outline: none;
+  }
+}

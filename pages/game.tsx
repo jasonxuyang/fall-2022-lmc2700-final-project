@@ -1,8 +1,9 @@
-import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useTimer } from "use-timer";
 import { EVENTS, INITIAL_STATE } from "../data";
+import MusicTechnology from "../puzzles/MusicTechnology/MusicTechnology";
 import { EVENT_PROMPT_TIME, IEvent, IState, TIMER_STATUS } from "../types";
+import styles from "./game.module.scss";
 
 export default function Game(pageProps: { initialState: IState }) {
   //
@@ -77,7 +78,9 @@ export default function Game(pageProps: { initialState: IState }) {
   };
 
   const resetGame = () => {
+    reset();
     setState(INITIAL_STATE);
+    sessionStorage.setItem("state", JSON.stringify(state));
   };
 
   //
@@ -90,6 +93,7 @@ export default function Game(pageProps: { initialState: IState }) {
         <div>Current Level: {level}</div>
         <button onClick={pause}>Pause Timer</button>
         <button onClick={start}>Start Timer</button>
+        <button onClick={resetGame}>Reset Game</button>
         <div>Current Event: {event ? event.prompt : "No event active"}</div>
         {event ? (
           <>
@@ -102,6 +106,7 @@ export default function Game(pageProps: { initialState: IState }) {
             })}
           </>
         ) : null}
+        <MusicTechnology />
       </main>
     </div>
   );

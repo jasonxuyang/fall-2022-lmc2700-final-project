@@ -1,8 +1,11 @@
+import MusicTechnology from "./puzzles/MusicTechnology/MusicTechnology";
 import {
   IState,
   INITIAL_TIME_PER_LEVEL,
   IEvent,
   EVENT_PROMPT_TIME,
+  INITIAL_ATTEMPTS_ALLOWED,
+  PUZZLE_STATUS,
 } from "./types";
 
 export const INITIAL_STATE: IState = {
@@ -14,6 +17,14 @@ export const INITIAL_STATE: IState = {
   isPaused: false,
   event: null,
   completedEvents: [],
+  currentGame: null,
+};
+
+export const INITIAL_PUZZLES_STATES = {
+  musicTechnology: {
+    attemptsLeft: INITIAL_ATTEMPTS_ALLOWED,
+    status: PUZZLE_STATUS.IN_PROGRESS,
+  },
 };
 
 export const EVENTS: IEvent[] = [
