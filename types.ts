@@ -17,6 +17,10 @@ export enum PUZZLE_STATUS {
   INCORRECT = "INCORRECT",
 }
 
+export enum PUZZLE {
+  MUSIC_TECHNOLOGY = "MUSIC TECHNOLOGY",
+}
+
 export interface IState {
   level: number;
   levelTime: number;
@@ -25,8 +29,9 @@ export interface IState {
   socialLevel: number;
   isPaused: boolean;
   event: IEvent | null;
-  currentGame: any;
+  currentPuzzle: PUZZLE | null;
   completedEvents: IEvent[];
+  puzzleStates: any;
 }
 
 export interface IEvent {
@@ -40,4 +45,10 @@ export interface IEventChoice {
   text: string;
   attribute: "studious" | "social";
   effect: "timePerLevel" | "hint";
+}
+
+export interface IPuzzleProps {
+  state: IState;
+  setState: (newState: IState) => void;
+  exitPuzzle: () => void;
 }

@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { IPuzzleProps } from "../../types";
 import { AudioPlayer, NOTE } from "./AudioPlayer";
 import styles from "./MusicTechnology.module.scss";
 
-export default function MusicTechnology() {
+export default function MusicTechnology({
+  state,
+  setState,
+  exitPuzzle,
+}: IPuzzleProps) {
   const [audioPlayer, setAudioPlayer] = useState<AudioPlayer>(
     new AudioPlayer()
   );
@@ -85,25 +90,30 @@ export default function MusicTechnology() {
   };
 
   return (
-    <div className={styles.gameContainer}>
-      <h4 className={styles.prompt}>What is the name of the song?</h4>
-      <input className={styles.input} type="text" ref={inputRef}></input>
-      <div className={styles.noteGrid}>
-        {notes.map((note, index) => {
-          return (
-            <button
-              key={index}
-              onMouseDown={() => {
-                playNote(notes[index]);
-              }}
-              onMouseUp={stopNote}
-              className={styles.note}
-            >
-              {note}
-            </button>
-          );
-        })}
+    <>
+      <div className={styles.backButton} onClick={exitPuzzle}>
+        Exit Puzzle
       </div>
-    </div>
+      <div className={styles.gameContainer}>
+        <h4 className={styles.prompt}>What is the name of the song?</h4>
+        <input className={styles.input} type="text" ref={inputRef}></input>
+        <div className={styles.noteGrid}>
+          {notes.map((note, index) => {
+            return (
+              <button
+                key={index}
+                onMouseDown={() => {
+                  playNote(notes[index]);
+                }}
+                onMouseUp={stopNote}
+                className={styles.note}
+              >
+                {note}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 }

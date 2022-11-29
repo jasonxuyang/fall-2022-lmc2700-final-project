@@ -1,6 +1,19 @@
 @import "../variables.scss";
 
-.puzzleGrid {
+.puzzlesGrid {
+  margin: $m4;
   width: 90%;
   display: grid;
+}
+
+.puzzleContainer {
+  margin: $m4;
+}
+
+.statusBar {
+  display: flex;
+  flex-direction: row;
+  column-gap: $m1;
+  padding: $m2;
+  align-items: center;
 }

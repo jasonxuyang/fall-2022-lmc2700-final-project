@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { useTimer } from "use-timer";
 import { EVENTS, INITIAL_STATE } from "../data";
 import MusicTechnology from "../puzzles/MusicTechnology/MusicTechnology";
-import { EVENT_PROMPT_TIME, IEvent, IState, TIMER_STATUS } from "../types";
+import {
+  EVENT_PROMPT_TIME,
+  IEvent,
+  IState,
+  PUZZLE,
+  TIMER_STATUS,
+} from "../types";
 import styles from "./game.module.scss";
 
 export default function Game(pageProps: { initialState: IState }) {
@@ -10,7 +16,14 @@ export default function Game(pageProps: { initialState: IState }) {
   // // Hooks
   //
   const [state, setState] = useState<IState>(pageProps.initialState);
-  const { level, levelTime, timePerLevel, event, completedEvents } = state;
+  const {
+    level,
+    levelTime,
+    timePerLevel,
+    event,
+    completedEvents,
+    currentPuzzle,
+  } = state;
 
   // Timer logic
   const { time, start, pause, reset, status, advanceTime } = useTimer({
@@ -77,6 +90,20 @@ export default function Game(pageProps: { initialState: IState }) {
     start();
   };
 
+  const enterPuzzle = (puzzle: PUZZLE) => {
+    setState({
+      ...state,
+      currentPuzzle: puzzle,
+    });
+  };
+
+  const exitPuzzle = () => {
+    setState({
+      ...state,
+      currentPuzzle: null,
+    });
+  };
+
   const resetGame = () => {
     reset();
     setState(INITIAL_STATE);
@@ -86,14 +113,28 @@ export default function Game(pageProps: { initialState: IState }) {
   //
   // // Render
   //
-  return (
-    <div>
-      <main>
-        <div>Current Time: {levelTime}</div>
-        <div>Current Level: {level}</div>
+
+  const renderGameStatus = () => {
+    return (
+      <div className={styles.statusBar}>
+        <div>
+          <div>
+            <strong>Current Time:</strong> {levelTime}
+          </div>
+          <div>
+            <strong>Current Level:</strong> {level}
+          </div>
+        </div>
         <button onClick={pause}>Pause Timer</button>
         <button onClick={start}>Start Timer</button>
         <button onClick={resetGame}>Reset Game</button>
+      </div>
+    );
+  };
+
+  const renderEvent = () => {
+    return (
+      <>
         <div>Current Event: {event ? event.prompt : "No event active"}</div>
         {event ? (
           <>
@@ -106,7 +147,34 @@ export default function Game(pageProps: { initialState: IState }) {
             })}
           </>
         ) : null}
-        <MusicTechnology />
+      </>
+    );
+  };
+  return (
+    <div>
+      <main>
+        {renderGameStatus()}
+        {renderEvent()}
+        {currentPuzzle === null && (
+          <div className={styles.puzzlesGrid}>
+            <button
+              onClick={() => {
+                enterPuzzle(PUZZLE.MUSIC_TECHNOLOGY);
+              }}
+            >
+              Music Technology
+            </button>
+          </div>
+        )}
+        <div className={styles.puzzleContainer}>
+          {currentPuzzle === PUZZLE.MUSIC_TECHNOLOGY && (
+            <MusicTechnology
+              state={state}
+              setState={setState}
+              exitPuzzle={exitPuzzle}
+            />
+          )}
+        </div>
       </main>
     </div>
   );
