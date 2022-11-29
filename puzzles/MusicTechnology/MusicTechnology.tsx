@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AudioPlayer, NOTE } from "./AudioPlayer";
 import styles from "./MusicTechnology.module.scss";
 
@@ -6,6 +6,29 @@ export default function MusicTechnology() {
   const [audioPlayer, setAudioPlayer] = useState<AudioPlayer>(
     new AudioPlayer()
   );
+  const inputRef = useRef<any>();
+  const ANSWER = "TWINKLE TWINKLE LITTLE STAR";
+  const validateAnswer = (answer: string) => {
+    return answer.toUpperCase() === ANSWER;
+  };
+
+  useEffect(() => {
+    const input = inputRef.current;
+    const submitHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        if (validateAnswer((e.target as HTMLInputElement).value)) {
+          alert("Correct!");
+        } else {
+          alert("Incorrect!");
+        }
+      }
+    };
+    input.addEventListener("keyup", submitHandler);
+
+    return () => {
+      input.removeEventListener("keyup", submitHandler);
+    };
+  }, []);
   const notes = [
     NOTE.C4,
     NOTE.C4,
@@ -64,7 +87,7 @@ export default function MusicTechnology() {
   return (
     <div className={styles.gameContainer}>
       <h4 className={styles.prompt}>What is the name of the song?</h4>
-      <input className={styles.input} type="text"></input>
+      <input className={styles.input} type="text" ref={inputRef}></input>
       <div className={styles.noteGrid}>
         {notes.map((note, index) => {
           return (
