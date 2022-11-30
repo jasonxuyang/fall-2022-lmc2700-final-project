@@ -185,13 +185,9 @@ export default function Game(pageProps: { initialState: IState }) {
         </div>
         <div className={styles.puzzleContainer}>
           {currentPuzzle === PUZZLE.MEDIA && (
-          <Media
-            state={state}
-            setState={setState}
-            exitPuzzle={exitPuzzle} 
-            />
+            <Media state={state} setState={setState} exitPuzzle={exitPuzzle} />
           )}
-          </div>
+        </div>
       </main>
     </div>
   );

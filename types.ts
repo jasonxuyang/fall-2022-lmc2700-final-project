@@ -19,6 +19,7 @@ export enum PUZZLE_STATUS {
 
 export enum PUZZLE {
   MUSIC_TECHNOLOGY = "MUSIC TECHNOLOGY",
+  MEDIA = "MEDIA",
 }
 
 export interface IState {
