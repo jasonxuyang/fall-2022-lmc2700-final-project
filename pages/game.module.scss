@@ -54,7 +54,7 @@
   width: 100%;
   align-items: center;
 
-  p {
+  .prompt {
     margin-bottom: $m3;
   }
 
@@ -66,5 +66,9 @@
     button {
       width: 100%;
     }
+  }
+
+  .pausedNote {
+    margin-top: $m2;
   }
 }

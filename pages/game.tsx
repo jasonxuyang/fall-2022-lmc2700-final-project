@@ -143,8 +143,8 @@ export default function Game(pageProps: { initialState: IState }) {
       <>
         {event ? (
           <div className={styles.event}>
-            <h3>{event.title}</h3>
-            <p>{event.prompt}</p>
+            <h3 className={styles.title}>{event.title}</h3>
+            <p className={styles.prompt}>{event.prompt}</p>
             <div className={styles.choices}>
               {event.choices.map((choice, index) => {
                 return (
@@ -154,6 +154,7 @@ export default function Game(pageProps: { initialState: IState }) {
                 );
               })}
             </div>
+            <p className={styles.pausedNote}>(Game is paused.)</p>
           </div>
         ) : null}
       </>
