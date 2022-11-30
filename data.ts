@@ -32,7 +32,8 @@ export const EVENTS: IEvent[] = [
   {
     level: 1,
     levelTime: EVENT_PROMPT_TIME,
-    prompt: "Test Event 1",
+    title: "Test Event 1",
+    prompt: "Test Prompt 1",
     choices: [
       {
         text: "Choice 1",
@@ -49,7 +50,8 @@ export const EVENTS: IEvent[] = [
   {
     level: 2,
     levelTime: EVENT_PROMPT_TIME,
-    prompt: "Test Event 2",
+    title: "Test Event 2",
+    prompt: "Test Prompt 2",
     choices: [
       {
         text: "Choice 1",

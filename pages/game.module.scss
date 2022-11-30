@@ -1,13 +1,35 @@
 @import "../variables.scss";
+@import "../common.scss";
 
 .puzzlesGrid {
-  margin: $m4;
-  width: 90%;
-  display: grid;
+  display: flex;
+  width: 100%;
+  column-gap: $m2;
+
+  button {
+    width: 100%;
+  }
+}
+
+.main {
+  display: flex;
+  padding: $m2;
+  height: calc(100vh - #{125px});
+  align-items: center;
+  justify-content: center;
 }
 
 .puzzleContainer {
-  margin: $m4;
+  position: relative;
+  padding: $m4;
+  width: 100%;
+  height: 100%;
+
+  .backButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }
 
 .statusBar {
@@ -16,4 +38,33 @@
   column-gap: $m1;
   padding: $m2;
   align-items: center;
+  justify-content: space-between;
+  height: 125px;
+}
+
+.debugButtonContainer {
+  display: flex;
+  flex-direction: row;
+  column-gap: $m2;
+}
+
+.event {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  p {
+    margin-bottom: $m3;
+  }
+
+  .choices {
+    width: 100%;
+    display: flex;
+    column-gap: $m2;
+
+    button {
+      width: 100%;
+    }
+  }
 }

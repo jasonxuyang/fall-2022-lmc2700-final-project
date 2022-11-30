@@ -114,7 +114,6 @@ export default function Game(pageProps: { initialState: IState }) {
   //
   // // Render
   //
-
   const renderGameStatus = () => {
     return (
       <div className={styles.statusBar}>
@@ -125,10 +124,16 @@ export default function Game(pageProps: { initialState: IState }) {
           <div>
             <strong>Current Level:</strong> {level}
           </div>
+          <div>
+            <strong>Current Event:</strong>{" "}
+            {event ? event.prompt : "No event active"}
+          </div>
         </div>
-        <button onClick={pause}>Pause Timer</button>
-        <button onClick={start}>Start Timer</button>
-        <button onClick={resetGame}>Reset Game</button>
+        <div className={styles.debugButtonContainer}>
+          <button onClick={start}>Start Timer</button>
+          <button onClick={pause}>Pause Timer</button>
+          <button onClick={resetGame}>Reset Game</button>
+        </div>
       </div>
     );
   };
@@ -136,27 +141,30 @@ export default function Game(pageProps: { initialState: IState }) {
   const renderEvent = () => {
     return (
       <>
-        <div>Current Event: {event ? event.prompt : "No event active"}</div>
         {event ? (
-          <>
-            {event.choices.map((choice, index) => {
-              return (
-                <button key={index} onClick={consumeEvent}>
-                  {choice.text}
-                </button>
-              );
-            })}
-          </>
+          <div className={styles.event}>
+            <h3>{event.title}</h3>
+            <p>{event.prompt}</p>
+            <div className={styles.choices}>
+              {event.choices.map((choice, index) => {
+                return (
+                  <button key={index} onClick={consumeEvent}>
+                    {choice.text}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         ) : null}
       </>
     );
   };
   return (
     <div>
-      <main>
-        {renderGameStatus()}
+      {renderGameStatus()}
+      <div className={styles.main}>
         {renderEvent()}
-        {currentPuzzle === null && (
+        {currentPuzzle === null && event === null && (
           <div className={styles.puzzlesGrid}>
             <button
               onClick={() => {
@@ -174,21 +182,28 @@ export default function Game(pageProps: { initialState: IState }) {
             </button>
           </div>
         )}
-        <div className={styles.puzzleContainer}>
-          {currentPuzzle === PUZZLE.MUSIC_TECHNOLOGY && (
-            <MusicTechnology
-              state={state}
-              setState={setState}
-              exitPuzzle={exitPuzzle}
-            />
-          )}
-        </div>
-        <div className={styles.puzzleContainer}>
-          {currentPuzzle === PUZZLE.MEDIA && (
-            <Media state={state} setState={setState} exitPuzzle={exitPuzzle} />
-          )}
-        </div>
-      </main>
+        {currentPuzzle !== null && event === null && (
+          <div className={styles.puzzleContainer}>
+            <div className={styles.backButton} onClick={exitPuzzle}>
+              Exit Puzzle
+            </div>
+            {currentPuzzle === PUZZLE.MUSIC_TECHNOLOGY && (
+              <MusicTechnology
+                state={state}
+                setState={setState}
+                exitPuzzle={exitPuzzle}
+              />
+            )}
+            {currentPuzzle === PUZZLE.MEDIA && (
+              <Media
+                state={state}
+                setState={setState}
+                exitPuzzle={exitPuzzle}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -38,6 +38,7 @@ export interface IState {
 export interface IEvent {
   level: number;
   levelTime: number;
+  title: string;
   prompt: string;
   choices: IEventChoice[];
 }

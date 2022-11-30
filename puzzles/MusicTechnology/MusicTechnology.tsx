@@ -90,30 +90,25 @@ export default function MusicTechnology({
   };
 
   return (
-    <>
-      <div className={styles.backButton} onClick={exitPuzzle}>
-        Exit Puzzle
+    <div className={styles.gameContainer}>
+      <h4 className={styles.prompt}>What is the name of the song?</h4>
+      <input className={styles.input} type="text" ref={inputRef}></input>
+      <div className={styles.noteGrid}>
+        {notes.map((note, index) => {
+          return (
+            <button
+              key={index}
+              onMouseDown={() => {
+                playNote(notes[index]);
+              }}
+              onMouseUp={stopNote}
+              className={styles.note}
+            >
+              {note}
+            </button>
+          );
+        })}
       </div>
-      <div className={styles.gameContainer}>
-        <h4 className={styles.prompt}>What is the name of the song?</h4>
-        <input className={styles.input} type="text" ref={inputRef}></input>
-        <div className={styles.noteGrid}>
-          {notes.map((note, index) => {
-            return (
-              <button
-                key={index}
-                onMouseDown={() => {
-                  playNote(notes[index]);
-                }}
-                onMouseUp={stopNote}
-                className={styles.note}
-              >
-                {note}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
