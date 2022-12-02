@@ -1,0 +1,91 @@
+@import "../../variables.scss";
+@import "../../common.scss";
+
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .input {
+    margin-bottom: $m4;
+    width: 400px;
+    text-align: center;
+  }
+}
+
+.image {
+  object-fit: cover;
+  width: 450px;
+  height: 250px;
+}
+
+.noteGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  column-gap: $m2;
+  row-gap: $m2;
+
+  .note {
+    width: 100%;
+  }
+}
+
+.prompt {
+  margin-top: 1rem;
+}
+
+@function rotate_pic() {
+  $degree: random(4);
+  @if $degree == 0 {
+    @return 0deg;
+  } @else if $degree == 2 {
+    @return 90deg;
+  } @else if $degree == 3 {
+    @return 180deg;
+  } @else if $degree == 4 {
+    @return 90deg;
+  }
+  @return $degree;
+}
+
+.answerImage {
+  width: 150px;
+  height: 150px;
+  rotate: rotate_pic();
+}
+
+.answerImage2 {
+  width: 150px;
+  height: 150px;
+  rotate: rotate_pic();
+}
+
+.answerImage3 {
+  width: 150px;
+  height: 150px;
+  rotate: rotate_pic();
+}
+
+.answerImage4 {
+  width: 150px;
+  height: 150px;
+  rotate: rotate_pic();
+}
+
+.answerChoice {
+  font-size: 40px;
+}
+
+.answerBox {
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.answerTotalRow {
+  display: flex;
+  // align-items: flex-end;
+}

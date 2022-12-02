@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTimer } from "use-timer";
 import { EVENTS, INITIAL_STATE } from "../data";
 import Media from "../puzzles/Media/Media";
+import Interaction from "../puzzles/Interaction/Interaction";
 import MusicTechnology from "../puzzles/MusicTechnology/MusicTechnology";
 import {
   EVENT_PROMPT_TIME,
@@ -181,6 +182,13 @@ export default function Game(pageProps: { initialState: IState }) {
             >
               Media
             </button>
+            <button
+              onClick={() => {
+                enterPuzzle(PUZZLE.INTERACTION);
+              }}
+            >
+              Interaction Design
+            </button>
           </div>
         )}
         {currentPuzzle !== null && event === null && (
@@ -197,6 +205,13 @@ export default function Game(pageProps: { initialState: IState }) {
             )}
             {currentPuzzle === PUZZLE.MEDIA && (
               <Media
+                state={state}
+                setState={setState}
+                exitPuzzle={exitPuzzle}
+              />
+            )}
+            {currentPuzzle === PUZZLE.INTERACTION && (
+              <Interaction
                 state={state}
                 setState={setState}
                 exitPuzzle={exitPuzzle}
