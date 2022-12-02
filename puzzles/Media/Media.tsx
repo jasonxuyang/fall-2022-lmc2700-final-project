@@ -46,6 +46,8 @@ export default function Media({ state, setState, exitPuzzle }: IPuzzleProps) {
     <>
       <div className={styles.gameContainer}>
         <img className={styles.image} src="redrum.jpg" alt="The Shining" />
+        <h3 className={styles.prompt}>4-Digit Password:</h3>
+        <h4 className={styles.prompt}>_ _ _ _</h4>
         <input className={styles.input} type="text" ref={inputRef}></input>
         <h4 className={styles.prompt}>The Alcohol Bar</h4>
         <div className={styles.noteGrid}>
