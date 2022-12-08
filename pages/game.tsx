@@ -16,12 +16,14 @@ import {
 } from "../types";
 import styles from "./game.module.scss";
 import { fromMsToS } from "../helpers";
+import { useRouter } from "next/router";
 
 export default function Game(pageProps: { initialState: IState }) {
   //
   // // Hooks
   //
   const [state, setState] = useState<IState>(pageProps.initialState);
+  const [hintsOpen, setHintsOpen] = useState<boolean>(false);
   const {
     level,
     levelTime,
@@ -32,16 +34,17 @@ export default function Game(pageProps: { initialState: IState }) {
     puzzlesCompleted,
     hints,
   } = state;
+  const router = useRouter();
 
   //
   // // Game state logic
   //
   const validateGameState = () => {
     if (state.level > 6) {
-      alert("you lose");
+      router.push("/lose");
     }
     if (state.puzzlesCompleted.length === Object.keys(PUZZLE).length) {
-      alert("you win");
+      router.push("/win");
     }
   };
 
@@ -163,19 +166,16 @@ export default function Game(pageProps: { initialState: IState }) {
   // // Render
   //
   const renderHints = () => {
-    return (
-      <>
-        {hints.map((hint, index) => {
-          return <div key={index}>{hint}</div>;
-        })}
-      </>
-    );
+    if (!hints.length) return <div>You do not have any hints yet!</div>;
+    return hints.map((hint, index) => {
+      return <div key={index}>{hint}</div>;
+    });
   };
+
   const renderGameStatus = () => {
     return (
       <div className={styles.statusBar}>
-        <div>
-          {renderHints()}
+        <div className={styles.status}>
           <div>
             <strong>Time Left in Year:</strong>{" "}
             {fromMsToS(INITIAL_TIME_PER_LEVEL - levelTime)}
@@ -184,11 +184,23 @@ export default function Game(pageProps: { initialState: IState }) {
             <strong>Current Year:</strong> {level}
           </div>
         </div>
-        <div className={styles.debugButtonContainer}>
+        <div className={styles.hintsContainer}>
+          <div
+            onClick={() => {
+              setHintsOpen(!hintsOpen);
+            }}
+            className={styles.hintsButton}
+          >
+            {hintsOpen ? "Close Hints" : "Open Hints"}
+          </div>
+          <div className={styles.hints}>{hintsOpen && renderHints()}</div>
+        </div>
+
+        {/* <div className={styles.debugButtonContainer}>
           <button onClick={start}>Start Timer</button>
           <button onClick={pause}>Pause Timer</button>
           <button onClick={resetGame}>Reset Game</button>
-        </div>
+        </div> */}
       </div>
     );
   };

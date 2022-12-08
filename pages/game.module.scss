@@ -32,12 +32,35 @@
   }
 }
 
+.hintsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  max-height: 125px;
+}
+
+.status {
+  height: 100%;
+}
+
+.hintsButton {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.hints {
+  opacity: 0.5;
+  text-align: end;
+}
+
 .statusBar {
   display: flex;
   flex-direction: row;
   column-gap: $m1;
   padding: $m2;
-  align-items: center;
   justify-content: space-between;
   height: 125px;
 }
