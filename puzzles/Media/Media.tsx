@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef } from "react";
 import styles from "./Media.module.scss";
-import { IPuzzleProps } from "../../types";
+import { IPuzzleProps, PUZZLE } from "../../types";
 
 const notes = [
   "1992 Bourbon Whiskey",
@@ -18,7 +18,7 @@ const notes = [
   "2002 Hennessy Cognac",
 ];
 
-export default function Media({ state, setState, exitPuzzle }: IPuzzleProps) {
+export default function Media({ completePuzzle }: IPuzzleProps) {
   const inputRef = useRef<any>();
   const ANSWER = "1998";
   const validateAnswer = (answer: string) => {
@@ -31,6 +31,7 @@ export default function Media({ state, setState, exitPuzzle }: IPuzzleProps) {
       if (e.key === "Enter") {
         if (validateAnswer((e.target as HTMLInputElement).value)) {
           alert("Correct!");
+          completePuzzle(PUZZLE.MEDIA);
         } else {
           alert("Incorrect!");
         }
@@ -41,7 +42,7 @@ export default function Media({ state, setState, exitPuzzle }: IPuzzleProps) {
     return () => {
       input.removeEventListener("keyup", submitHandler);
     };
-  }, []);
+  }, [completePuzzle]);
   return (
     <>
       <div className={styles.gameContainer}>

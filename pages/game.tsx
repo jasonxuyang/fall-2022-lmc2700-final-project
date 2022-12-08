@@ -7,11 +7,15 @@ import MusicTechnology from "../puzzles/MusicTechnology/MusicTechnology";
 import {
   EVENT_PROMPT_TIME,
   IEvent,
+  IEventChoice,
+  INITIAL_TIME_PER_LEVEL,
   IState,
+  MINUTE,
   PUZZLE,
   TIMER_STATUS,
 } from "../types";
 import styles from "./game.module.scss";
+import { fromMsToS } from "../helpers";
 
 export default function Game(pageProps: { initialState: IState }) {
   //
@@ -25,9 +29,25 @@ export default function Game(pageProps: { initialState: IState }) {
     event,
     completedEvents,
     currentPuzzle,
+    puzzlesCompleted,
+    hints,
   } = state;
 
+  //
+  // // Game state logic
+  //
+  const validateGameState = () => {
+    if (state.level > 6) {
+      alert("you lose");
+    }
+    if (state.puzzlesCompleted.length === Object.keys(PUZZLE).length) {
+      alert("you win");
+    }
+  };
+
+  //
   // Timer logic
+  //
   const { time, start, pause, reset, status, advanceTime } = useTimer({
     initialTime: 0,
     endTime: timePerLevel,
@@ -58,6 +78,7 @@ export default function Game(pageProps: { initialState: IState }) {
           levelTime: time,
         });
       }
+      validateGameState();
       sessionStorage.setItem("state", JSON.stringify(state));
     },
     onTimeOver: () => {
@@ -81,14 +102,26 @@ export default function Game(pageProps: { initialState: IState }) {
   //
   // // Helpers
   //
-  const consumeEvent = () => {
+  const consumeEvent = (choice: IEventChoice) => {
     const updatedCompletedEvents = [...completedEvents, event as IEvent];
-    setState({
-      ...state,
-      completedEvents: updatedCompletedEvents,
-      event: null,
-      levelTime: time,
-    });
+    const { effect, hint } = choice;
+    if (effect === "timePerLevel") {
+      setState({
+        ...state,
+        completedEvents: updatedCompletedEvents,
+        event: null,
+        levelTime: time - MINUTE,
+      });
+      reset();
+    } else {
+      setState({
+        ...state,
+        completedEvents: updatedCompletedEvents,
+        event: null,
+        levelTime: time,
+        hints: [...hints, hint as string],
+      });
+    }
     start();
   };
 
@@ -106,6 +139,20 @@ export default function Game(pageProps: { initialState: IState }) {
     });
   };
 
+  const completePuzzle = (puzzle: PUZZLE) => {
+    setState({
+      ...state,
+      puzzlesCompleted: [...puzzlesCompleted, puzzle],
+      currentPuzzle: null,
+    });
+  };
+
+  const isPuzzleComplete = (puzzle: PUZZLE) => {
+    return puzzlesCompleted.some(
+      (completedPuzzle) => completedPuzzle === puzzle
+    );
+  };
+
   const resetGame = () => {
     reset();
     setState(INITIAL_STATE);
@@ -115,19 +162,26 @@ export default function Game(pageProps: { initialState: IState }) {
   //
   // // Render
   //
+  const renderHints = () => {
+    return (
+      <>
+        {hints.map((hint, index) => {
+          return <div key={index}>{hint}</div>;
+        })}
+      </>
+    );
+  };
   const renderGameStatus = () => {
     return (
       <div className={styles.statusBar}>
         <div>
+          {renderHints()}
           <div>
-            <strong>Current Time:</strong> {levelTime}
+            <strong>Time Left in Year:</strong>{" "}
+            {fromMsToS(INITIAL_TIME_PER_LEVEL - levelTime)}
           </div>
           <div>
-            <strong>Current Level:</strong> {level}
-          </div>
-          <div>
-            <strong>Current Event:</strong>{" "}
-            {event ? event.prompt : "No event active"}
+            <strong>Current Year:</strong> {level}
           </div>
         </div>
         <div className={styles.debugButtonContainer}>
@@ -149,7 +203,7 @@ export default function Game(pageProps: { initialState: IState }) {
             <div className={styles.choices}>
               {event.choices.map((choice, index) => {
                 return (
-                  <button key={index} onClick={consumeEvent}>
+                  <button key={index} onClick={() => consumeEvent(choice)}>
                     {choice.text}
                   </button>
                 );
@@ -168,27 +222,33 @@ export default function Game(pageProps: { initialState: IState }) {
         {renderEvent()}
         {currentPuzzle === null && event === null && (
           <div className={styles.puzzlesGrid}>
-            <button
-              onClick={() => {
-                enterPuzzle(PUZZLE.MUSIC_TECHNOLOGY);
-              }}
-            >
-              Music Technology
-            </button>
-            <button
-              onClick={() => {
-                enterPuzzle(PUZZLE.MEDIA);
-              }}
-            >
-              Media
-            </button>
-            <button
-              onClick={() => {
-                enterPuzzle(PUZZLE.INTERACTION);
-              }}
-            >
-              Interaction Design
-            </button>
+            {!isPuzzleComplete(PUZZLE.MUSIC_TECHNOLOGY) && (
+              <button
+                onClick={() => {
+                  enterPuzzle(PUZZLE.MUSIC_TECHNOLOGY);
+                }}
+              >
+                Music Technology
+              </button>
+            )}
+            {!isPuzzleComplete(PUZZLE.MEDIA) && (
+              <button
+                onClick={() => {
+                  enterPuzzle(PUZZLE.MEDIA);
+                }}
+              >
+                Media
+              </button>
+            )}
+            {!isPuzzleComplete(PUZZLE.INTERACTION) && (
+              <button
+                onClick={() => {
+                  enterPuzzle(PUZZLE.INTERACTION);
+                }}
+              >
+                Interaction Design
+              </button>
+            )}
           </div>
         )}
         {currentPuzzle !== null && event === null && (
@@ -197,25 +257,13 @@ export default function Game(pageProps: { initialState: IState }) {
               Exit Puzzle
             </div>
             {currentPuzzle === PUZZLE.MUSIC_TECHNOLOGY && (
-              <MusicTechnology
-                state={state}
-                setState={setState}
-                exitPuzzle={exitPuzzle}
-              />
+              <MusicTechnology completePuzzle={completePuzzle} />
             )}
             {currentPuzzle === PUZZLE.MEDIA && (
-              <Media
-                state={state}
-                setState={setState}
-                exitPuzzle={exitPuzzle}
-              />
+              <Media completePuzzle={completePuzzle} />
             )}
             {currentPuzzle === PUZZLE.INTERACTION && (
-              <Interaction
-                state={state}
-                setState={setState}
-                exitPuzzle={exitPuzzle}
-              />
+              <Interaction completePuzzle={completePuzzle} />
             )}
           </div>
         )}

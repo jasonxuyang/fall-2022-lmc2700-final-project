@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { IPuzzleProps } from "../../types";
+import { IPuzzleProps, PUZZLE } from "../../types";
 import { AudioPlayer, NOTE } from "./AudioPlayer";
 import styles from "./MusicTechnology.module.scss";
 
-export default function MusicTechnology({
-  state,
-  setState,
-  exitPuzzle,
-}: IPuzzleProps) {
+export default function MusicTechnology({ completePuzzle }: IPuzzleProps) {
   const [audioPlayer, setAudioPlayer] = useState<AudioPlayer>(
     new AudioPlayer()
   );
@@ -23,6 +19,7 @@ export default function MusicTechnology({
       if (e.key === "Enter") {
         if (validateAnswer((e.target as HTMLInputElement).value)) {
           alert("Correct!");
+          completePuzzle(PUZZLE.MUSIC_TECHNOLOGY);
         } else {
           alert("Incorrect!");
         }
@@ -33,7 +30,7 @@ export default function MusicTechnology({
     return () => {
       input.removeEventListener("keyup", submitHandler);
     };
-  }, []);
+  }, [completePuzzle]);
   const notes = [
     NOTE.C4,
     NOTE.C4,

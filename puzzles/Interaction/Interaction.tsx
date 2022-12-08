@@ -1,12 +1,10 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState } from "react";
-import { IPuzzleProps } from "../../types";
+import { IPuzzleProps, PUZZLE } from "../../types";
 import styles from "./Interaction.module.scss";
 
-export default function Interaction({
-  state,
-  setState,
-  exitPuzzle,
-}: IPuzzleProps) {
+export default function Interaction({ completePuzzle }: IPuzzleProps) {
   const inputRef = useRef<any>();
   const ANSWER = "DACB";
   const validateAnswer = (answer: string) => {
@@ -19,6 +17,7 @@ export default function Interaction({
       if (e.key === "Enter") {
         if (validateAnswer((e.target as HTMLInputElement).value)) {
           alert("Correct!");
+          completePuzzle(PUZZLE.INTERACTION);
         } else {
           alert("Incorrect!");
         }
@@ -29,7 +28,7 @@ export default function Interaction({
     return () => {
       input.removeEventListener("keyup", submitHandler);
     };
-  }, []);
+  }, [completePuzzle]);
 
   return (
     <div className={styles.gameContainer}>

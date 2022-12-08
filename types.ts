@@ -1,7 +1,7 @@
 export const SECOND = 1;
 export const MINUTE = 60 * SECOND;
-export const INITIAL_TIME_PER_LEVEL = 5 * MINUTE;
-export const EVENT_PROMPT_TIME = 5;
+export const INITIAL_TIME_PER_LEVEL = 2.5 * MINUTE;
+export const EVENT_PROMPT_TIME = MINUTE;
 export const TOTAL_LEVELS = 6;
 export const INITIAL_ATTEMPTS_ALLOWED = 3;
 
@@ -9,12 +9,6 @@ export enum TIMER_STATUS {
   RUNNING = "RUNNING",
   PAUSED = "PAUSED",
   STOPPED = "STOPPED",
-}
-
-export enum PUZZLE_STATUS {
-  IN_PROGRESS = "IN_PROGRESS",
-  CORRECT = "CORRECT",
-  INCORRECT = "INCORRECT",
 }
 
 export enum PUZZLE {
@@ -33,7 +27,8 @@ export interface IState {
   event: IEvent | null;
   currentPuzzle: PUZZLE | null;
   completedEvents: IEvent[];
-  puzzleStates: any;
+  puzzlesCompleted: PUZZLE[];
+  hints: string[];
 }
 
 export interface IEvent {
@@ -48,10 +43,9 @@ export interface IEventChoice {
   text: string;
   attribute: "studious" | "social";
   effect: "timePerLevel" | "hint";
+  hint?: string;
 }
 
 export interface IPuzzleProps {
-  state: IState;
-  setState: (newState: IState) => void;
-  exitPuzzle: () => void;
+  completePuzzle: (puzzle: PUZZLE) => void;
 }
