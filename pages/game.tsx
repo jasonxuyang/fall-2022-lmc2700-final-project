@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTimer } from "use-timer";
 import { EVENTS, INITIAL_STATE } from "../data";
 import Media from "../puzzles/Media/Media";
+import Film from "../puzzles/Film/Film";
 import Interaction from "../puzzles/Interaction/Interaction";
 import MusicTechnology from "../puzzles/MusicTechnology/MusicTechnology";
 import {
@@ -261,6 +262,15 @@ export default function Game(pageProps: { initialState: IState }) {
                 Interaction Design
               </button>
             )}
+            {!isPuzzleComplete(PUZZLE.FILM) && (
+              <button
+                onClick={() => {
+                  enterPuzzle(PUZZLE.FILM);
+                }}
+              >
+                Film
+              </button>
+            )}
           </div>
         )}
         {currentPuzzle !== null && event === null && (
@@ -276,6 +286,9 @@ export default function Game(pageProps: { initialState: IState }) {
             )}
             {currentPuzzle === PUZZLE.INTERACTION && (
               <Interaction completePuzzle={completePuzzle} />
+            )}
+            {currentPuzzle === PUZZLE.FILM && (
+              <Film completePuzzle={completePuzzle} />
             )}
           </div>
         )}

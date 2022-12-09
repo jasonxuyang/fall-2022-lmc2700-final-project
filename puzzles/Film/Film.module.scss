@@ -1,7 +1,8 @@
 .app {
   display: flex;
   padding: 30px;
-
+  flex-direction: column;
+  align-items: center;
 }
 
 .game {
@@ -12,7 +13,7 @@
 }
 
 .game img {
-  width: 69px; 
+  width: 69px;
   height: 69px;
   padding: 1px;
 }
